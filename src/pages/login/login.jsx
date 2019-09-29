@@ -31,7 +31,13 @@ class Login extends Component {
 
                         <Item>
                             {
-                                getFieldDecorator('username', {})(
+                                getFieldDecorator('username', {
+                                    rules: [{ required: true, message: '用户名必须输入' },
+                                    { min: 6, message: '用户名至少为6位' },
+                                    { max: 12, message: '用户名最多为12位' },
+                                    { pattern: /^[a-zA-Z0-9_]+$/, message: '用户名必须为数字字母下划线组成'}
+                                    ],
+                                })(
                                     <Input
                                         prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
                                         placeholder="用户名" />)
