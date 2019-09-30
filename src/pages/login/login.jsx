@@ -10,11 +10,34 @@ class Login extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        const form = this.props.form
-        const values = form.getFieldsValue();
-        console.log('handleSubmit()', values);
+
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                console.log('发送ajax请求: ', values);
+            } else {
+                console.log('校验失败')
+            }
+        });
+
     }
 
+    //用自定义的方式对数据进行验证
+    validatPwd = (rule, value, callback) => {
+        console.log('validatPwd()', rule, value);
+
+        if (!value) {
+            callback('密码必须输入')
+        } else if (value.length < 6) {
+            callback('密码至少为6位')
+        } else if (value.length > 12) {
+            callback('密码最多为12位')
+        } else if (!/^[a-zA-Z0-9_]+$/.test(value)) {
+            callback('密码必须为数字字母下划线组成')
+        } else {
+            callback();
+        }
+
+    }
 
     render() {
         const form = this.props.form;
@@ -31,11 +54,12 @@ class Login extends Component {
 
                         <Item>
                             {
+                                // 用antd中自带的验证
                                 getFieldDecorator('username', {
-                                    rules: [{ required: true, message: '用户名必须输入' },
+                                    rules: [{ required: true, whitespace: true, message: '用户名必须输入' },
                                     { min: 6, message: '用户名至少为6位' },
                                     { max: 12, message: '用户名最多为12位' },
-                                    { pattern: /^[a-zA-Z0-9_]+$/, message: '用户名必须为数字字母下划线组成'}
+                                    { pattern: /^[a-zA-Z0-9_]+$/, message: '用户名必须为数字字母下划线组成' },
                                     ],
                                 })(
                                     <Input
@@ -46,7 +70,10 @@ class Login extends Component {
 
                         <Item>
                             {
-                                getFieldDecorator('password', {})(
+                                getFieldDecorator('password', {
+                                    rules: [{ whitespace: true, message: '密码不能为空格' },
+                                    { validator: this.validatPwd }]
+                                })(
                                     <Input
                                         prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                                         type="password"
