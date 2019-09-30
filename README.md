@@ -57,16 +57,16 @@ serve build
     App.js			应用根组件
     index.js			程序入口
 ## 所需的包
-yarn add antd
-yarn add react-app-rewired customize-cra babel-plugin-import
-yarn add less less-loader
-yarn add react-router-dom
-yarn add axios
-yarn add store
-yarn add jsonp
-yarn add react-draft-wysiwyg draftjs-to-html
-yarn add redux react-redux redux-thunk redux-devtools-extension
-yarn add echarts echarts-for-react
-yarn add bizcharts @antv/data-set
+* yarn add antd
+* yarn add react-app-rewired customize-cra babel-plugin-import
+* yarn add less less-loader
+* yarn add react-router-dom
+* yarn add axios
+* yarn add store
+* yarn add jsonp
+* yarn add react-draft-wysiwyg draftjs-to-html
+* yarn add redux react-redux redux-thunk redux-devtools-extension
+* yarn add echarts echarts-for-react
+* yarn add bizcharts @antv/data-set
 （用来发布项目的命令的包）
-npm install -g serve
+* npm install -g serve
