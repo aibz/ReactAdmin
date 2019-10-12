@@ -7,5 +7,10 @@
  // import 'antd/dist/antd.css'
 
  import App from './App'
+ import memoryUtils from './utils/memoryUtils'
+ import storageUtils from './utils/storageUtils'
+
+ memoryUtils.user = storageUtils.getUser()
+ 
 
  ReactDom.render(<App/>, document.getElementById('root'))
