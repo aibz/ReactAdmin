@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { Menu, Icon, } from 'antd'
 
 import './index.less'
 import logo from '../../assets/images/NBA.png'
 import menuList from '../../config/menuConfig'
 const { SubMenu } = Menu;
-export default class LeftNav extends Component {
+class LeftNav extends Component {
 
     getMenuListNodes = (menuList) => {
         return menuList.map(item => {
@@ -39,6 +39,8 @@ export default class LeftNav extends Component {
     }
 
     getMenuListNodesReduce = (menuList) => {
+        const path = this.props.location.pathname
+
         return menuList.reduce((pre, item) => {
 
             if (!item.children) {
@@ -51,6 +53,12 @@ export default class LeftNav extends Component {
                     </Menu.Item>)
                 )
             } else {
+
+                const citem = item.children.find(citem => citem.key === path)
+                if(citem){
+                    this.openKey = item.key
+                }
+
                 pre.push(
                     (<SubMenu
                         key={item.key}
@@ -61,7 +69,7 @@ export default class LeftNav extends Component {
                             </span>
                         }
                     >
-                        {this.getMenuListNodes(item.children)}
+                        {this.getMenuListNodesReduce(item.children)}
                     </SubMenu>)
                 )
             }
@@ -69,8 +77,17 @@ export default class LeftNav extends Component {
             return pre
         }, [])
     }
+    
+    componentWillMount(){
+        this.menuNodes = this.getMenuListNodesReduce(menuList)
+    }
 
     render() {
+
+        const path = this.props.location.pathname
+
+        const openKey = this.openKey
+
         return (
             <div className='left-nav'>
                 <Link to='/' className='left-nav-header'>
@@ -155,12 +172,15 @@ export default class LeftNav extends Component {
                 </Menu> */
                 }
                 <Menu
-                    defaultSelectedKeys={['/home']}
+                    selectedKeys={[path]}    
+                    defaultOpenKeys={[openKey]}    
                     mode="inline"
                     theme="dark">
-                    {this.getMenuListNodesReduce(menuList)}
+                    {this.menuNodes}
                 </Menu>
             </div>
         )
     }
 }
+
+export default withRouter(LeftNav)
