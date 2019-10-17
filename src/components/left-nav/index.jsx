@@ -78,6 +78,7 @@ class LeftNav extends Component {
         }, [])
     }
     
+    //在组件第一次渲染之前执行
     componentWillMount(){
         this.menuNodes = this.getMenuListNodesReduce(menuList)
     }
